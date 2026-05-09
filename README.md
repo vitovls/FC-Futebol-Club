@@ -10,12 +10,13 @@ O foco do projeto era no backend, onde foi feita uma API REST para o site.
 ![Demo Aplicação](/front-example.png)
 
 ### Tecnologias utilizadas no seu desenvolvimento:
-  - Express com Node.js + Typescript.
-  - Mysql com Sequelize.
-  - Docker + Docker Compose.
-  - Testes com chai, sinon.
+  - Express com Node.js + TypeScript
+  - MySQL com Sequelize
+  - Docker + Docker Compose (plugin v2)
+  - Vite 5 (frontend)
+  - Testes com Mocha, Chai e Sinon
 
-### As principais habilidades desenvolvidas ao longo do projeto foi:
+### As principais habilidades desenvolvidas ao longo do projeto:
   - Escrita de testes unitários para garantir a qualidade e confiabilidade do código.
   - Dockerização completa das aplicações, incluindo configuração de redes, volumes e orquestração com Docker Compose.
   - Modelagem e gestão de dados no MySQL utilizando Sequelize, aplicando boas práticas de estruturação de banco de dados.
@@ -23,59 +24,108 @@ O foco do projeto era no backend, onde foi feita uma API REST para o site.
   - Desenvolvimento de APIs RESTful, implementando endpoints escaláveis e bem documentados.
   - Implementação de operações CRUD otimizadas, garantindo alto desempenho e segurança na manipulação de dados.
 
-### Instalando as dependências necessárias
+---
 
-O projeto usa o gerenciador de pacotes *NPM*.
+## Pré-requisitos
 
-<img src=https://img.shields.io/badge/npm-v8.5.5-green>
+- [Docker](https://docs.docker.com/engine/install/) com o plugin **Docker Compose v2** (integrado ao Docker Desktop ou instalado via `docker compose plugin`)
+- Node.js 20 LTS (para desenvolvimento local)
+- npm
 
-Primeiro instale as dependências gerais do projeto.
+> **Atenção:** o projeto usa `docker compose` (sem hífen). O binário standalone `docker-compose` não é suportado.
 
-Na pasta `raiz` do projeto execute:
+---
 
-```bash
-npm install
-```
+## Usando Docker (recomendado)
 
-### Utilizando docker: 
-Com o [docker](https://docs.docker.com/engine/install/) e o [docker-compose](https://docs.docker.com/compose/install/) instalados.
-
-<img src=https://img.shields.io/badge/docker-v2020.10.13-informational>
-<img src=https://img.shields.io/badge/docker--compose-v2.3.3-informational>
-
-Na pasta `./app` execute: 
+Na pasta **raiz** do projeto execute:
 
 ```bash
 npm run compose:up
 ```
 
-## Para usar a aplicação localmente
+Isso irá buildar e subir três containers:
 
-#### Configurando environments
+| Serviço  | Porta | Descrição              |
+|----------|-------|------------------------|
+| frontend | 3000  | UI React (Vite)        |
+| backend  | 3001  | API REST (Express/TS)  |
+| db       | 3002  | MySQL 8                |
 
-As seguintes variáveis de ambiente devem ser configuradas
+Aguarde todos os containers ficarem `healthy`:
+
+```bash
+cd app && docker compose ps
 ```
-PORT
-DB_USER
-DB_PASS
+
+Acesse a aplicação em `http://localhost:3000`.
+
+Para derrubar os containers:
+
+```bash
+npm run compose:down
+```
+
+---
+
+## Usando localmente (sem Docker)
+
+### Configurando variáveis de ambiente
+
+As seguintes variáveis devem estar configuradas para o backend:
+
+```
+PORT=3001
+DB_USER=root
+DB_PASS=123456
 DB_NAME=TRYBE_FUTEBOL_CLUBE
-DB_HOST
-DB_PORT
+DB_HOST=localhost
+DB_PORT=3306   # ou 3002 se usar o container `db` do Docker
 ```
 
-#### Iniciando backend
+> Se estiver usando apenas o container `db` (sem o backend em Docker), o MySQL fica disponível na porta **3002** do host. Use `DB_PORT=3002`.
 
-Na pasta `./app/backend` execute: 
+### Iniciando o banco de dados
+
+Para subir apenas o banco via Docker:
 
 ```bash
-npm start
+cd app && docker compose up db -d
 ```
 
-#### Iniciando frontend
+### Iniciando o backend
 
-E na pasta `./app/frontend` execute: 
+Na pasta `./app/backend`:
 
 ```bash
-npm start
+npm run dev   # desenvolvimento com hot-reload (ts-node-dev)
+# ou
+npm start     # produção (compila TypeScript + inicia o servidor)
 ```
-Com isso a aplicação já vai está rodando localmente na sua maquina, basta entrar no navegador. Caso não tenha aberto automaticamente `http://localhost:3000/`
+
+### Iniciando o frontend
+
+Na pasta `./app/frontend`:
+
+```bash
+npm start     # inicia o Vite na porta 3000
+```
+
+Acesse `http://localhost:3000`.
+
+---
+
+## Executando testes do backend
+
+Na pasta `./app/backend`:
+
+```bash
+npm test               # todos os testes
+npm run test:coverage  # com relatório de cobertura
+```
+
+Para rodar um arquivo específico:
+
+```bash
+npx mocha -r ts-node/register ./src/tests/01.login.test.ts -t 10000 --exit
+```
