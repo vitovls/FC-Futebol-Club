@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/app/frontend
 
@@ -8,4 +8,6 @@ RUN npm install
 
 COPY . .
 
-CMD [ "npm", "start" ]
+EXPOSE 3000
+
+CMD ["npm", "run", "dev", "--", "--host"]
