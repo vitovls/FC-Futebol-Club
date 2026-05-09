@@ -6,6 +6,8 @@ import matchsRoute from './matchs';
 
 const routes = Router();
 
+routes.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
+
 routes.use('/clubs', clubsRoutes);
 routes.use('/login', loginRoutes);
 routes.use('/matchs', matchsRoute);
