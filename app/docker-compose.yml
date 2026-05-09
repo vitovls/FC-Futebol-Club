@@ -9,6 +9,7 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 5s
       timeout: 10s
       retries: 5
   backend:
@@ -28,6 +29,7 @@ services:
       - DB_PORT=3306
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 5s
       timeout: 10s
       retries: 5
   db:
@@ -40,6 +42,7 @@ services:
     restart: 'always'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
       timeout: 10s
       retries: 5
     cap_add:
