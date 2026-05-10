@@ -94,6 +94,16 @@ describe('Testes rota "/matchs"', () => {
     });
   })
   describe('METHOD GET',() => {
+    before(() => {
+      sinon.stub(Matchs, 'findAll')
+        .onFirstCall().resolves(inProgressMatchsMock as unknown as Matchs[])
+        .onSecondCall().resolves(notProgressMatchsMock as unknown as Matchs[]);
+    });
+
+    after(() => {
+      (Matchs.findAll as sinon.SinonStub).restore();
+    });
+
     it('GET na rota "/matchs?inProgres=true", retorna um status 200, com a lista de todas as partidas em progresso', async () => {
       res = await chai.request(app)
         .get('/matchs').query({inProgress: true});
