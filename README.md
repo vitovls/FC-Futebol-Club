@@ -1,10 +1,10 @@
 <img src="https://nodejs.org/static/images/logo.svg" width="100px" align="right">
 
-# Trybe Futebol Clube ⚽🏆
+#   Futebol Clube ⚽🏆
 
-O Trybe Futebol Clube, ou TFC, é um projeto que emula partidas e a classificação dos times de um campeonato de futebol.
+O   Futebol Clube, ou TFC, é um projeto que emula partidas e a classificação dos times de um campeonato de futebol.
 
-O projeto foi feito com um frontend já implementado pela Trybe, escola de programação.
+O projeto foi feito com um frontend já implementado pela  , escola de programação.
 O foco do projeto era no backend, onde foi feita uma API REST para o site.
 
 ![Demo Aplicação](/front-example.png)
