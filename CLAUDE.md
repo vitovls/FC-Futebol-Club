@@ -120,16 +120,24 @@ Puppeteer-based end-to-end tests run via Jest from the project root. These requi
 
 ## Documentation
 
-Project documentation lives in `docs/`:
+Project documentation follows **SDD (Spec-Driven Development)** with TDD. All AI context and development artifacts live in `docs/`:
 
 ```
 docs/
-├── prd/        — Product Requirements Documents
-├── srd/        — System Requirements Documents
-├── adr/        — Architecture Decision Records
-├── plan/       — Implementation plans
-├── tasks/      — Task breakdowns
-└── superpowers/specs/ — Design specs
+├── prd/     — Product Requirements Documents (business level)
+├── srd/     — System Requirements Documents (technical requirements)
+├── specs/   — Design specs per feature (how to build — output of brainstorming)
+├── plans/   — Implementation plans per feature (step-by-step with code)
+└── adr/     — Architecture Decision Records (permanent technical decisions)
 ```
 
-See `docs/README.md` for the full index.
+### SDD Governing Rules
+
+1. **Spec-first**: No code is written before a spec exists in `docs/specs/`. The spec is the source of truth.
+2. **TDD**: Tests are written before implementation. The plan in `docs/plans/` drives the agent; tests drive the code.
+3. **Artifact flow**: PRD → SRD → Spec → Plan → Implementation.
+4. **No duplicate folders**: `specs/` and `plans/` are the only homes for specs and plans. Do not create nested subfolders like `superpowers/`.
+5. **Consolidate redundancy**: If two documents cover the same feature at the same level of abstraction, merge them into one.
+6. **ADR on decisions**: Any architectural decision with lasting implications gets an ADR in `adr/`.
+
+See `docs/README.md` for the full index and naming conventions.
